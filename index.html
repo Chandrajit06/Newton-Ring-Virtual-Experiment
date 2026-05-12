@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Newton's Rings: Complete Virtual Lab</title>
+    <link rel="stylesheet" href="Style.css" />
+</head>
+
+<body>
+
+    <h1>Newton's Rings Virtual Experiment</h1>
+
+    <!-- Tab Navigation -->
+    <nav class="tab-nav" data-testid="tab-nav">
+        <button class="tab-btn active" data-tab="theory" data-testid="tab-btn-theory">Theory</button>
+        <button class="tab-btn" data-tab="procedure" data-testid="tab-btn-procedure">Procedure</button>
+        <button class="tab-btn" data-tab="simulation" data-testid="tab-btn-simulation">Simulation</button>
+        <button class="tab-btn" data-tab="error" data-testid="tab-btn-error">Error Analysis</button>
+    </nav>
+
+    <!-- ====================== THEORY TAB ====================== -->
+    <section class="tab-panel active" id="tab-theory" data-testid="panel-theory">
+        <div class="content-card">
+
+            <div class="content-body" id="theory-content">
+
+                <h3>Objective</h3>
+                <p>
+                    To study the formation of Newton’s rings in the air-film in between a
+                    plano-convex lens and a glass plate using nearly monochromatic light
+                    from a sodium-source and hence to determine the radius of curvature
+                    of the plano-convex lens.
+                </p>
+
+                <h3>Apparatus</h3>
+                <ul>
+                    <li>A nearly monochromatic source of light (source of sodium light) of wavelength 589nm</li>
+                    <li>A plano-convex lens</li>
+                    <li>An optically flat glass plate</li>
+                    <li>A convex lens</li>
+                    <li>A travelling microscope</li>
+                </ul>
+
+                <div class="theory-figures">
+
+                    <!-- Figure -->
+                    <div class="theory-card">
+                        <h4>Fig. Experimental Setup</h4>
+                        <img id="theorySetupImage" src="setup.jpeg"
+                            alt="Newton Rings Experimental Setup" />
+                        <p style="margin-top:10px; color:#aaa; font-size:0.9rem;">
+                            Experimental setup to observe Newton’s Rings
+                        </p>
+                    </div>
+
+                </div>
+
+                <h3>Theory</h3>
+                <p>
+                    When a parallel beam of monochromatic light is incident normally on a
+                    combination of a plano-convex lens and a glass plate, a part of each
+                    incident ray is reflected from the lower surface of the lens and another
+                    part is reflected from the top surface of the glass plate. These reflected
+                    rays interfere and produce alternate dark and bright circular fringes
+                    called Newton’s Rings.
+                </p>
+
+                <p>
+                    For a normal incidence of monochromatic ligth, the path difference between the reflected rays is
+                    very equal to 2μt where μ and t are refractive index and thickness of the air-film respectively.
+                </p>
+
+                <p>
+                    For dark rings:
+                </p>
+
+                <p class="formula">
+                    2μt = nλ
+                </p>
+
+                <p>
+                    For bright rings:
+                </p>
+
+                <p class="formula">
+                    2μt = (n + 1/2)λ
+                </p>
+
+                <p>
+                    The diameter of the n-th dark ring is given by:
+                </p>
+
+                <p class="formula">
+                    D<sub>n</sub><sup>2</sup> = 4nλR
+                </p>
+
+                <p>
+                    Radius of curvature of the plano-convex lens:
+                </p>
+
+                <p class="formula">
+                    R = (D<sub>n+m</sub><sup>2</sup> − D<sub>n</sub><sup>2</sup>) / 4mλ
+                </p>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ====================== PROCEDURE TAB ====================== -->
+    <section class="tab-panel" id="tab-procedure" data-testid="panel-procedure">
+        <div class="content-card">
+            <h2>Procedure</h2>
+
+            <div class="content-body" id="procedure-content">
+
+                <ol>
+                    <li>
+                        Level the travelling microscope with its axis vertical. Arrange the set-up as shown in Fig.1 and
+                        focus the microscope on the air-film. Newton’s Rings will be clearly seen.
+                    </li>
+
+                    <li>
+                        Adjust the glass plate G<sub>1</sub> for maximum visibility of the point of contact of lens L
+                        with the glass plate G and hence for maximum visibility of Newton’s Rings. In this orientation,
+                        G<sub>1</sub> is at 45° to the incident beam of light.
+                    </li>
+
+                    <li>
+                        Move the microscope to the right of the central dark spot (say order ‘n’, this is because the
+                        central ring is often broad and may not necessarily be zero order) and set it on the extreme
+                        visible (say n+20th order) distinct dark ring so that the cross-wire perpendicular to the
+                        direction of movement of the microscope passes through the dark ring and is tangential to it.
+                        Record the microscope position from the horizontal scale along with its number with dark ring
+                        around the central dark spot as the first dark ring.
+                    </li>
+
+                    <li>
+                        Move the microscope to left and record the position of the 16<sup>th</sup> dark ring. Continue
+                        shifting the microscope to the left and record data at an interval of 4 rings (i.e.
+                        12<sup>th</sup>, 8<sup>th</sup> and 4<sup>th</sup> ring).
+                    </li>
+
+                    <li>
+                        Now move the microscope further to the left so that you cross the central dark spot and reach
+                        the 4<sup>th</sup> dark ring on the left side of the central spot. Take the reading of this
+                        4<sup>th</sup> dark ring.
+                    </li>
+
+                    <li>
+                        Continue shifting the microscope to the left and take readings at an interval of four rings till
+                        you reach the 20<sup>th</sup> ring.
+                    </li>
+
+                    <li>
+                        Now shift the microscope to the right by rotating the horizontal knob in the reverse direction.
+                        Repeat the same process mentioned in steps 4, 5 and 6 till you reach the 20<sup>th</sup> ring in
+                        the extreme right side of the central dark spot.
+                    </li>
+
+                    <li>
+                        From these measurements, evaluate the diameters of different rings.
+                    </li>
+
+                    <li>
+                        Now choose any four pairs of rings from your readings and evaluate the difference of square of
+                        diameters for these four pairs. From these data you can find out the value of R for each of
+                        these four pairs as given in Table 2. Mean of these four values of R gives you the value of
+                        Radius of curvature R of the plano-convex lens.
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================== SIMULATION TAB ====================== -->
+    <section class="tab-panel" id="tab-simulation" data-testid="panel-simulation">
+
+
+
+        <div class="lab-layout">
+
+            <!-- Left Column: Visuals -->
+            <div class="view-card">
+                <label>Microscope Eye-Piece View</label>
+                <canvas id="ringCanvas" width="380" height="380"></canvas>
+
+                <label style="margin-top: 20px;">Laboratory Bench (Top View)</label>
+                <canvas id="setupCanvas" width="650" height="160"></canvas>
+            </div>
+
+            <!-- Right Column: Controls -->
+            <div class="control-card">
+                <label>Main Scale Reading (cm)</label>
+                <div class="readout" id="digiPos" data-testid="readout-position">10.000 cm</div>
+                <input type="range" id="micPos" min="-4" max="4" step="0.001" value="0" data-testid="slider-micPos" />
+
+                <label>Light Wavelength (λ): <span id="wTxt">589 nm</span></label>
+                <input type="range" id="wave" min="400" max="750" value="589" data-testid="slider-wave" />
+
+                <label>Lens Radius (R): <span id="rTxt">30 cm</span></label>
+                <input type="range" id="radius" min="10" max="75" value="30" data-testid="slider-radius" />
+
+                <button onclick="logData()" data-testid="btn-record">RECORD READING</button>
+                <p class="hint-text">
+                    Move the lead screw to align the crosshair with the center of a dark ring, then click record.
+                </p>
+                <button class="clear-btn" onclick="clearTable()" data-testid="btn-reset">RESET TABLE</button>
+            </div>
+
+            <!-- Bottom Section: Table & Formula -->
+            <div class="bottom-section">
+                <div class="data-table">
+                    <h3>Observation Table</h3>
+                    <table id="obsTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Position (cm)</th>
+                                <th>Side</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <div class="formula-guide">
+                    <h3>How to Calculate λ:</h3>
+                    <p>1. Measure diameter D<sub>n</sub> by taking readings on Left and Right sides of the
+                        n<sup>th</sup> ring.</p>
+                    <p>2. Use the formula: <code>λ = (D<sub>n+m</sub>² - D<sub>n</sub>²) / (4mR)</code></p>
+                    <p>3. In this simulation, <b>R</b> is in cm. Convert <b>D</b> to cm and <b>λ</b> will be in cm
+                        (multiply by 10⁷ for nm).</p>
+                    <hr style="border: 0.5px solid #444;" />
+                    <p><i>Note: The central spot is dark due to a phase change of π upon reflection.</i></p>
+                </div>
+            </div>
+
+            <!-- Lab record tables (Table 1 & Table 2) — full width below simulation -->
+            <div class="lab-record-stack lab-record-print-area">
+                <div class="lab-record-toolbar">
+                    <button type="button" class="btn-print-lab" id="btnPrintLabTables"
+                        data-testid="btn-print-lab-tables">
+                        Print Observation Table
+                    </button>
+                </div>
+
+                <article class="lab-record-card" aria-labelledby="table1-heading">
+                    <header class="lab-record-card-header">
+                        <h2 class="lab-record-title" id="table1-heading">Determination of the diameter (<span
+                                class="math-var">D</span>) of the rings</h2>
+                    </header>
+                    <div class="lab-table-scroll" role="region" aria-label="Table 1 data entry" tabindex="0">
+                        <table class="sim-lab-table table-ring-diameter">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="th-ring-no">Ring No</th>
+                                    <th scope="col">Left Forward Reading</th>
+                                    <th scope="col">Left Backward Reading</th>
+                                    <th scope="col">Right Forward Reading</th>
+                                    <th scope="col">Right Backward Reading</th>
+                                    <th scope="col">Diameter D1</th>
+                                    <th scope="col">Diameter D2</th>
+                                    <th scope="col">Mean D</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table1-body">
+                                <tr data-row-index="0">
+                                    <td>
+                                        <input type="text" class="lab-input lab-input-ring" readonly
+                                            aria-label="Ring No row 1" value="4" />
+                                    </td>
+
+                                    <td>
+                                        <input type="number" step="any" class="lab-input t1-left-forward"
+                                            aria-label="Left forward row 1" />
+                                    </td>
+
+                                    <td>
+                                        <input type="number" step="any" class="lab-input t1-left-backward"
+                                            aria-label="Left backward row 1" />
+                                    </td>
+
+                                    <td>
+                                        <input type="number" step="any" class="lab-input t1-right-forward"
+                                            aria-label="Right forward row 1" />
+                                    </td>
+
+                                    <td>
+                                        <input type="number" step="any" class="lab-input t1-right-backward"
+                                            aria-label="Right backward row 1" />
+                                    </td>
+
+                                    <td>
+                                        <input type="text" readonly class="lab-input lab-input-readonly t1-d1"
+                                            aria-label="Diameter D1 row 1" />
+                                    </td>
+
+                                    <td>
+                                        <input type="text" readonly class="lab-input lab-input-readonly t1-d2"
+                                            aria-label="Diameter D2 row 1" />
+                                    </td>
+
+                                    <td>
+                                        <input type="text" readonly class="lab-input lab-input-readonly t1-mean-d"
+                                            aria-label="Mean D row 1" />
+                                    </td>
+                                </tr>
+                                <tr data-row-index="1">
+                                    <td>
+                                        <input type="text" class="lab-input lab-input-ring" readonly
+                                            aria-label="Ring No row 2" value="8" />
+                                    </td>
+
+                                    <td>
+                                        <input type="number" step="any" class="lab-input t1-left-forward"
+                                            aria-label="Left forward row 2" />
+                                    </td>
+
+                                    <td>
+                                        <input type="number" step="any" class="lab-input t1-left-backward"
+                                            aria-label="Left backward row 2" />
+                                    </td>
+
+                                    <td>
+                                        <input type="number" step="any" class="lab-input t1-right-forward"
+                                            aria-label="Right forward row 2" />
+                                    </td>
+
+                                    <td>
+                                        <input type="number" step="any" class="lab-input t1-right-backward"
+                                            aria-label="Right backward row 2" />
+                                    </td>
+
+                                    <td>
+                                        <input type="text" readonly class="lab-input lab-input-readonly t1-d1"
+                                            aria-label="Diameter D1 row 2" />
+                                    </td>
+
+                                    <td>
+                                        <input type="text" readonly class="lab-input lab-input-readonly t1-d2"
+                                            aria-label="Diameter D2 row 2" />
+                                    </td>
+
+                                    <td>
+                                        <input type="text" readonly class="lab-input lab-input-readonly t1-mean-d"
+                                            aria-label="Mean D row 2" />
+                                    </td>
+                                </tr>
+                                <tr data-row-index="2">
+                                    <td>
+                                        <input type="text" class="lab-input lab-input-ring" readonly
+                                            aria-label="Ring No row 3" value="12" />
+                                    </td>
+
+                                    <td>
+                                        <input type="number" step="any" class="lab-input t1-left-forward"
+                                            aria-label="Left forward row 3" />
+                                    </td>
+
+                                    <td>
+                                        <input type="number" step="any" class="lab-input t1-left-backward"
+                                            aria-label="Left backward row 3" />
+                                    </td>
+
+                                    <td>
+                                        <input type="number" step="any" class="lab-input t1-right-forward"
+                                            aria-label="Right forward row 3" />
+                                    </td>
+
+                                    <td>
+                                        <input type="number" step="any" class="lab-input t1-right-backward"
+                                            aria-label="Right backward row 3" />
+                                    </td>
+
+                                    <td>
+                                        <input type="text" readonly class="lab-input lab-input-readonly t1-d1"
+                                            aria-label="Diameter D1 row 3" />
+                                    </td>
+
+                                    <td>
+                                        <input type="text" readonly class="lab-input lab-input-readonly t1-d2"
+                                            aria-label="Diameter D2 row 3" />
+                                    </td>
+
+                                    <td>
+                                        <input type="text" readonly class="lab-input lab-input-readonly t1-mean-d"
+                                            aria-label="Mean D row 3" />
+                                    </td>
+                                </tr>
+                                <tr data-row-index="3">
+                                    <td>
+                                        <input type="text" class="lab-input lab-input-ring" readonly
+                                            aria-label="Ring No row 4" value="16" />
+                                    </td>
+
+                                    <td>
+                                        <input type="number" step="any" class="lab-input t1-left-forward"
+                                            aria-label="Left forward row 4" />
+                                    </td>
+
+                                    <td>
+                                        <input type="number" step="any" class="lab-input t1-left-backward"
+                                            aria-label="Left backward row 4" />
+                                    </td>
+
+                                    <td>
+                                        <input type="number" step="any" class="lab-input t1-right-forward"
+                                            aria-label="Right forward row 4" />
+                                    </td>
+
+                                    <td>
+                                        <input type="number" step="any" class="lab-input t1-right-backward"
+                                            aria-label="Right backward row 4" />
+                                    </td>
+
+                                    <td>
+                                        <input type="text" readonly class="lab-input lab-input-readonly t1-d1"
+                                            aria-label="Diameter D1 row 4" />
+                                    </td>
+
+                                    <td>
+                                        <input type="text" readonly class="lab-input lab-input-readonly t1-d2"
+                                            aria-label="Diameter D2 row 4" />
+                                    </td>
+
+                                    <td>
+                                        <input type="text" readonly class="lab-input lab-input-readonly t1-mean-d"
+                                            aria-label="Mean D row 4" />
+                                    </td>
+                                </tr>
+                                <tr data-row-index="4">
+                                    <td>
+                                        <input type="text" class="lab-input lab-input-ring" readonly
+                                            aria-label="Ring No row 5" value="20" />
+                                    </td>
+
+                                    <td>
+                                        <input type="number" step="any" class="lab-input t1-left-forward"
+                                            aria-label="Left forward row 5" />
+                                    </td>
+
+                                    <td>
+                                        <input type="number" step="any" class="lab-input t1-left-backward"
+                                            aria-label="Left backward row 5" />
+                                    </td>
+
+                                    <td>
+                                        <input type="number" step="any" class="lab-input t1-right-forward"
+                                            aria-label="Right forward row 5" />
+                                    </td>
+
+                                    <td>
+                                        <input type="number" step="any" class="lab-input t1-right-backward"
+                                            aria-label="Right backward row 5" />
+                                    </td>
+
+                                    <td>
+                                        <input type="text" readonly class="lab-input lab-input-readonly t1-d1"
+                                            aria-label="Diameter D1 row 5" />
+                                    </td>
+
+                                    <td>
+                                        <input type="text" readonly class="lab-input lab-input-readonly t1-d2"
+                                            aria-label="Diameter D2 row 5" />
+                                    </td>
+
+                                    <td>
+                                        <input type="text" readonly class="lab-input lab-input-readonly t1-mean-d"
+                                            aria-label="Mean D row 5" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+
+                <article class="lab-record-card" aria-labelledby="table2-heading">
+                    <header class="lab-record-card-header">
+                        <h2 class="lab-record-title" id="table2-heading">Determination of <span
+                                class="math-var">R</span></h2>
+
+                    </header>
+                    <div class="lab-table-scroll" role="region" aria-label="Table 2 data entry" tabindex="0">
+                        <table class="sim-lab-table table-r-calculation">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Ring no.</th>
+                                    <th scope="col">Mean <span class="math-var">D</span> in cm</th>
+                                    <th scope="col"><span class="math-var">D</span><sup>2</sup> [cm<sup>2</sup>]</th>
+                                    <th scope="col">Value of (<span class="math-var">n</span>+<span
+                                            class="math-var">m</span>)</th>
+                                    <th scope="col">Value of <span class="math-var">n</span></th>
+                                    <th scope="col">Value of <span class="math-var">m</span></th>
+                                    <th scope="col"><span class="math-var">D</span><sup>2</sup><sub><span
+                                                class="math-var">n</span>+<span class="math-var">m</span></sub> − <span
+                                            class="math-var">D</span><sup>2</sup><sub><span
+                                                class="math-var">n</span></sub></th>
+                                    <th scope="col"><span class="math-var">R</span> = Δ<span
+                                            class="math-var">D</span><sup>2</sup> / (4<span class="math-var">m</span>λ)
+                                    </th>
+                                    <th scope="col">Mean <span class="math-var">R</span> in cm</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table2-body">
+                                <tr data-row-index="0">
+                                    <td><input type="text" class="lab-input t2-ring-display" readonly
+                                            aria-label="Ring number row 1" value="1" /></td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-mean-d"
+                                            aria-label="Mean D row 1" /></td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-d2"
+                                            aria-label="D squared row 1" /></td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-n-plus-m"
+                                            aria-label="n plus m row 1" /></td>
+                                    <td><input type="number" step="any" class="lab-input t2-n" aria-label="n row 1" />
+                                    </td>
+                                    <td><input type="number" step="any" class="lab-input t2-m" aria-label="m row 1" />
+                                    </td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-delta-d2"
+                                            aria-label="Delta D squared row 1" /></td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-r"
+                                            aria-label="R row 1" /></td>
+                                    <td rowspan="5"><input type="text" readonly
+                                            class="lab-input lab-input-readonly t2-mean-r" aria-label="Mean R row 1" />
+                                    </td>
+                                </tr>
+                                <tr data-row-index="1">
+                                    <td><input type="text" class="lab-input t2-ring-display" readonly
+                                            aria-label="Ring number row 2" value="2" /></td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-mean-d"
+                                            aria-label="Mean D row 2" /></td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-d2"
+                                            aria-label="D squared row 2" /></td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-n-plus-m"
+                                            aria-label="n plus m row 2" /></td>
+                                    <td><input type="number" step="any" class="lab-input t2-n" aria-label="n row 2" />
+                                    </td>
+                                    <td><input type="number" step="any" class="lab-input t2-m" aria-label="m row 2" />
+                                    </td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-delta-d2"
+                                            aria-label="Delta D squared row 2" /></td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-r"
+                                            aria-label="R row 2" /></td>
+                                </tr>
+                                <tr data-row-index="2">
+                                    <td><input type="text" class="lab-input t2-ring-display" readonly
+                                            aria-label="Ring number row 3" value="3" /></td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-mean-d"
+                                            aria-label="Mean D row 3" /></td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-d2"
+                                            aria-label="D squared row 3" /></td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-n-plus-m"
+                                            aria-label="n plus m row 3" /></td>
+                                    <td><input type="number" step="any" class="lab-input t2-n" aria-label="n row 3" />
+                                    </td>
+                                    <td><input type="number" step="any" class="lab-input t2-m" aria-label="m row 3" />
+                                    </td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-delta-d2"
+                                            aria-label="Delta D squared row 3" /></td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-r"
+                                            aria-label="R row 3" /></td>
+                                </tr>
+                                <tr data-row-index="3">
+                                    <td><input type="text" class="lab-input t2-ring-display" readonly
+                                            aria-label="Ring number row 4" value="4" /></td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-mean-d"
+                                            aria-label="Mean D row 4" /></td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-d2"
+                                            aria-label="D squared row 4" /></td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-n-plus-m"
+                                            aria-label="n plus m row 4" /></td>
+                                    <td><input type="number" step="any" class="lab-input t2-n" aria-label="n row 4" />
+                                    </td>
+                                    <td><input type="number" step="any" class="lab-input t2-m" aria-label="m row 4" />
+                                    </td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-delta-d2"
+                                            aria-label="Delta D squared row 4" /></td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-r"
+                                            aria-label="R row 4" /></td>
+                                </tr>
+                                <tr data-row-index="4">
+                                    <td><input type="text" class="lab-input t2-ring-display" readonly
+                                            aria-label="Ring number row 5" value="5" /></td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-mean-d"
+                                            aria-label="Mean D row 5" /></td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-d2"
+                                            aria-label="D squared row 5" /></td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-n-plus-m"
+                                            aria-label="n plus m row 5" /></td>
+                                    <td><input type="number" step="any" class="lab-input t2-n" aria-label="n row 5" />
+                                    </td>
+                                    <td><input type="number" step="any" class="lab-input t2-m" aria-label="m row 5" />
+                                    </td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-delta-d2"
+                                            aria-label="Delta D squared row 5" /></td>
+                                    <td><input type="text" readonly class="lab-input lab-input-readonly t2-r"
+                                            aria-label="R row 5" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <footer class="lab-result-footer">
+                        <p class="lab-result-line" id="labResultRadius">
+                            Result: Radius of curvature of plano-convex lens =
+                            <span class="lab-result-blank" id="labResultRadiusValue">___</span> cm
+                        </p>
+                    </footer>
+                </article>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ====================== ERROR ANALYSIS TAB ====================== -->
+    <section class="tab-panel" id="tab-error" data-testid="panel-error">
+        <div class="content-card">
+            <h2>Error Analysis</h2>
+            <div class="content-body" id="error-content">
+                <p>Maximum proportional error in R (using V.C. = 0.001 cm):</p>
+                <p class="formula">(ΔR / R)<sub>max</sub> = 4 × V.C. / (D<sub>n+m</sub> − D<sub>n</sub>)</p>
+
+                <div class="lab-record-card" style="margin-top: 30px;">
+                    <header class="lab-record-card-header">
+                        <h2 class="lab-record-title">Calculated Percentage Errors</h2>
+                    </header>
+                    <div class="lab-table-scroll">
+                        <table class="sim-lab-table">
+                            <thead>
+                                <tr>
+                                    <th>Pair (n+m, n)</th>
+                                    <th>D<sub>n+m</sub> (cm)</th>
+                                    <th>D<sub>n</sub> (cm)</th>
+                                    <th>D<sub>n+m</sub> - D<sub>n</sub> (cm)</th>
+                                    <th>% Error</th>
+                                </tr>
+                            </thead>
+                            <tbody id="error-table-body">
+                            </tbody>
+                        </table>
+                    </div>
+                    <footer class="lab-result-footer">
+                        <p class="lab-result-line">
+                            Mean Percentage Error = <span class="lab-result-blank" id="mean-error-val">___</span> %
+                        </p>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="Script.js"></script>
+</body>
+
+</html>
