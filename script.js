@@ -271,58 +271,492 @@ function drawRings(offset, λ, R) {
     rCtx.setLineDash([]);
 }
 
-function drawSetup(offset) {
-    sCtx.clearRect(0, 0, setupCanvas.width, setupCanvas.height);
-    const margin = 40;
-    const rulerStart = margin;
-    const rulerEnd = setupCanvas.width - margin;
-    const rulerWidth = rulerEnd - rulerStart;
-    const pxPerCm = rulerWidth / 24; // -12 cm to +12 cm
-    const centerX = rulerStart + rulerWidth / 2;
+/* ============================================================
+   EXTENDED MECHANICAL HARDWARE SIMULATION ENGINE
+   ============================================================ */
+// Initialize access parameters for the dedicated dual-scale vernier array
+const vernierCanvas = document.getElementById('vernierCanvas');
+const vCtx = vernierCanvas ? vernierCanvas.getContext('2d') : null;
 
-    // Draw Ruler
-    sCtx.strokeStyle = "#888";
+// Variable managing continuous animation cycle states for the ray paths
+let rayAnimationTicks = 0;
+
+/**
+ * Enhanced Engine: Replaces drawSetup with a realistic physical workbench,
+ * cast-iron mounting rails, a sodium housing capsule, and real-time ray tracing.
+ */
+function drawSetup(offset) {
+    if (!sCtx || !setupCanvas) return;
+
+    // Increment phase timing variables for moving photons
+    rayAnimationTicks = (rayAnimationTicks + 0.4) % 100;
+
+    sCtx.clearRect(0, 0, setupCanvas.width, setupCanvas.height);
+
+    const W = setupCanvas.width;
+    const H = setupCanvas.height;
+
+    // Fixed engineering frame configurations
+    const tableTopY = H - 40;
+    const bedTopY = tableTopY - 25;
+    const opticalAxisY = bedTopY - 65; 
+
+    /* 1. LAYERED WOODEN WORKBENCH SURFACE */
+    let woodGrad = sCtx.createLinearGradient(0, tableTopY, 0, H);
+    woodGrad.addColorStop(0, '#2d1f10');
+    woodGrad.addColorStop(0.1, '#4a3319');
+    woodGrad.addColorStop(0.5, '#3d2913');
+    woodGrad.addColorStop(1, '#1f1408');
+    sCtx.fillStyle = woodGrad;
+    sCtx.fillRect(0, tableTopY, W, H - tableTopY);
+
+    sCtx.fillStyle = 'rgba(255,255,255,0.06)';
+    sCtx.fillRect(0, tableTopY, W, 2);
+
+    /* 2. CAST-IRON OPTICAL BENCH ASSEMBLY */
+    sCtx.fillStyle = '#1c1e24';
+    sCtx.fillRect(30, bedTopY, W - 60, tableTopY - bedTopY);
+    sCtx.strokeStyle = '#383e4c';
+    sCtx.lineWidth = 1.5;
+    sCtx.strokeRect(30, bedTopY, W - 60, tableTopY - bedTopY);
+
+    let steelGrad = sCtx.createLinearGradient(0, bedTopY + 4, 0, bedTopY + 20);
+    steelGrad.addColorStop(0, '#57606f');
+    steelGrad.addColorStop(0.3, '#ffffff');
+    steelGrad.addColorStop(0.6, '#747d8c');
+    steelGrad.addColorStop(1, '#2f3542');
+    sCtx.fillStyle = steelGrad;
+    sCtx.fillRect(40, bedTopY + 4, W - 80, 7);
+    sCtx.fillRect(40, bedTopY + 14, W - 80, 7);
+
+    /* 3. SODIUM VAPOR ILLUMINATION ENCLOSURE (FIXED LEFT) */
+    const lampX = 40;
+    const lampW = 55;
+    const lampH = 85;
+    const lampY = opticalAxisY - lampH / 2;
+
+    let lampGrad = sCtx.createLinearGradient(lampX, lampY, lampX + lampW, lampY);
+    lampGrad.addColorStop(0, '#1e2129');
+    lampGrad.addColorStop(0.7, '#3d4354');
+    lampGrad.addColorStop(1, '#101217');
+    sCtx.fillStyle = lampGrad;
     sCtx.beginPath();
-    sCtx.moveTo(rulerStart, 100);
-    sCtx.lineTo(rulerEnd, 100);
+    if (typeof sCtx.roundRect === "function") {
+        sCtx.roundRect(lampX, lampY, lampW, lampH, [6, 2, 2, 6]);
+    } else {
+        sCtx.rect(lampX, lampY, lampW, lampH);
+    }
+    sCtx.fill();
     sCtx.stroke();
 
-    for (let i = 0; i <= 24; i++) {
-        let x = rulerStart + (i * pxPerCm);
-        const cm = i - 12;
-        sCtx.beginPath();
-        sCtx.moveTo(x, 100);
-        sCtx.lineTo(x, cm % 2 === 0 ? 117 : 112);
-        sCtx.stroke();
-        sCtx.fillStyle = "#666";
-        sCtx.fillText(cm.toString(), x - 6, 130);
+    sCtx.fillStyle = '#0a0b0d';
+    for (let i = 0; i < 4; i++) {
+        sCtx.fillRect(lampX + 12 + (i * 10), lampY + 10, 5, 20);
     }
 
-    // Lens Assembly at the optical centre (0 cm).
-    const targetX = centerX;
-    sCtx.fillStyle = "#00d4ff22";
+    sCtx.fillStyle = '#2f3542';
+    sCtx.fillRect(lampX + 15, lampY + lampH, lampW - 30, bedTopY - (lampY + lampH));
+
+    let amberGlow = sCtx.createRadialGradient(lampX + lampW, opticalAxisY, 2, lampX + lampW, opticalAxisY, 15);
+    amberGlow.addColorStop(0, '#ffffff');
+    amberGlow.addColorStop(0.4, '#ffa500');
+    amberGlow.addColorStop(1, 'rgba(255,165,0,0)');
+    sCtx.fillStyle = amberGlow;
     sCtx.beginPath();
-    sCtx.arc(targetX, 80, 25, 0, Math.PI * 2);
+    sCtx.arc(lampX + lampW, opticalAxisY, 15, 0, Math.PI * 2);
     sCtx.fill();
-    sCtx.strokeStyle = "#00d4ff";
+
+    /* 4. DYNAMIC TRAVELING MICROSCOPE FRAME MECHANICS (WITH ATTENUATED MOVEMENT) */
+    const travelRegionWidth = 220; 
+    const scaleZeroX = W / 2 + 30; // Aligned with the stationary lens center
+    
+    // FIX: Multiply the offset by a dampening factor (e.g., 0.15) to make movement very slow
+    const slowedOffset = offset * 0.15;
+    const micX = scaleZeroX + (slowedOffset * (travelRegionWidth / 24));
+
+    // Heavy stable track base plate
+    sCtx.fillStyle = '#262a36';
+    sCtx.fillRect(micX - 35, bedTopY - 14, 70, 14);
+
+    // Tall vertical adjustment frame pillar (Moved back slightly to avoid blocking optical path)
+    let pillarGrad = sCtx.createLinearGradient(micX - 25, bedTopY - 140, micX - 10, bedTopY - 14);
+    pillarGrad.addColorStop(0, '#57606f');
+    pillarGrad.addColorStop(0.5, '#f1f2f6');
+    pillarGrad.addColorStop(1, '#2f3542');
+    sCtx.fillStyle = pillarGrad;
+    sCtx.fillRect(micX - 25, bedTopY - 140, 15, 126);
+
+    // Focus gear rack teeth profiling
+    sCtx.fillStyle = '#dcdde1';
+    for (let y = bedTopY - 130; y < bedTopY - 40; y += 5) {
+        sCtx.fillRect(micX - 10, y, 2, 2);
+    }
+
+    // Microscope Support Linkage Bracket Arm (Holds the scope barrel directly over alignment axis)
+    sCtx.fillStyle = '#3d4354';
+    sCtx.fillRect(micX - 15, bedTopY - 130, 30, 14);
+
+    // Ocular drawtube housing mounted vertically over micX
+    let scopeX = micX - 10;
+    let scopeY = opticalAxisY - 110;
+    let scopeW = 20;
+    let scopeH = 75;
+
+    let scopeGrad = sCtx.createLinearGradient(scopeX, scopeY, scopeX + scopeW, scopeY);
+    scopeGrad.addColorStop(0, '#1c1f26');
+    scopeGrad.addColorStop(0.4, '#485460');
+    scopeGrad.addColorStop(1, '#0b0c0f');
+    sCtx.fillStyle = scopeGrad;
+    sCtx.fillRect(scopeX, scopeY, scopeW, scopeH);
+
+    // Polished accents & Eyepiece
+    sCtx.fillStyle = '#eccc68';
+    sCtx.fillRect(scopeX - 2, scopeY + 10, scopeW + 4, 3);
+    sCtx.fillRect(scopeX - 2, scopeY + scopeH - 8, scopeW + 4, 3);
+    sCtx.fillStyle = '#1e2530';
+    sCtx.fillRect(scopeX - 3, scopeY - 8, scopeW + 6, 8);
+
+    /* 5. STATIONARY NEWTON RINGS OPTICS FRAME (FIXED AT CENTER BLOCK) */
+    // FIX: Decoupled from micX so it stays stationary at a fixed location on the rail bench
+    const opticsCenterX = W / 2 + 30; 
+    const baseWidth = 80;
+    
+    sCtx.fillStyle = '#1e2530';
+    sCtx.fillRect(opticsCenterX - baseWidth / 2, bedTopY - 10, baseWidth, 10);
+
+    // Hardened platform mounting stage holding the lens elements
+    sCtx.fillStyle = '#0d1117';
+    sCtx.fillRect(opticsCenterX - 40, bedTopY - 16, 80, 6);
+
+    // Glass elements setup
+    sCtx.lineWidth = 1.5;
+    sCtx.strokeStyle = 'rgba(0, 212, 255, 0.8)';
+    sCtx.fillStyle = 'rgba(0, 212, 255, 0.15)';
+    
+    // Flat glass boundary plate underneath
+    sCtx.fillRect(opticsCenterX - 35, bedTopY - 22, 70, 6);
+    sCtx.strokeRect(opticsCenterX - 35, bedTopY - 22, 70, 6);
+
+    // Curved crown lens element (Curved face facing down resting on the glass plate)
+    sCtx.beginPath();
+    sCtx.moveTo(opticsCenterX - 35, bedTopY - 32);
+    sCtx.lineTo(opticsCenterX + 35, bedTopY - 32);
+    sCtx.arcTo(opticsCenterX, bedTopY - 22, opticsCenterX - 35, bedTopY - 32, 140);
+    sCtx.closePath();
+    sCtx.fill();
     sCtx.stroke();
 
-    // Traveling Microscope Carriage follows signed offset from centre.
-    const clampedOffset = Math.max(-12, Math.min(12, offset));
-    const micX = centerX + (clampedOffset * pxPerCm);
-    sCtx.fillStyle = "#444";
-    sCtx.fillRect(micX - 25, 85, 50, 15);   // Base
-    sCtx.fillStyle = "#777";
-    sCtx.fillRect(micX - 8, 40, 16, 45);    // Body
+    /* 6. SPLITTER MATRIX: 45-DEGREE GLASS PLATE (STATIONARY ABOVE LENS) */
+    const glassRefX = opticsCenterX; // Stays fixed directly above the stationary lens
+    const glassRefY = opticalAxisY;
+    const glassLength = 46;
 
-    // Indicator Arrow (Vernier Zero)
-    sCtx.fillStyle = "red";
+    sCtx.save();
+    sCtx.translate(glassRefX, glassRefY);
+    sCtx.rotate(-45 * Math.PI / 180);
+    
+    let glassGrad = sCtx.createLinearGradient(-glassLength/2, -2, glassLength/2, 2);
+    glassGrad.addColorStop(0, 'rgba(255,255,255,0.7)');
+    glassGrad.addColorStop(0.5, 'rgba(0,212,255,0.4)');
+    glassGrad.addColorStop(1, 'rgba(255,255,255,0.2)');
+    
+    sCtx.fillStyle = glassGrad;
+    sCtx.strokeStyle = 'rgba(255,255,255,0.8)';
+    sCtx.lineWidth = 2;
+    sCtx.fillRect(-glassLength / 2, -1.5, glassLength, 3);
+    sCtx.strokeRect(-glassLength / 2, -1.5, glassLength, 3);
+    sCtx.restore();
+
+    // Stiff structural arm mounting the glass plate to the table assembly
+    sCtx.strokeStyle = '#4b5563';
+    sCtx.lineWidth = 2.5;
     sCtx.beginPath();
-    sCtx.moveTo(micX, 100);
-    sCtx.lineTo(micX - 5, 112);
-    sCtx.lineTo(micX + 5, 112);
-    sCtx.fill();
+    sCtx.moveTo(opticsCenterX - 38, bedTopY - 16);
+    sCtx.lineTo(opticsCenterX - 38, glassRefY + 8);
+    sCtx.lineTo(glassRefX - 12, glassRefY + 8);
+    sCtx.stroke();
+
+    /* 7. NEWTON-RINGS COHERENT RAY-TRACING ENGINE */
+    sCtx.save();
+    
+    // Background glow pipeline 
+    sCtx.strokeStyle = `rgba(255, 180, 0, 0.12)`;
+    sCtx.lineWidth = 8;
+    sCtx.beginPath();
+    sCtx.moveTo(lampX + lampW, opticalAxisY);
+    sCtx.lineTo(glassRefX, opticalAxisY);
+    sCtx.lineTo(glassRefX, bedTopY - 22);
+    sCtx.stroke();
+
+    // Primary Incident Ray (Horizontal path out of Sodium source to stationary splitter)
+    sCtx.strokeStyle = '#ffb300';
+    sCtx.lineWidth = 2;
+    sCtx.shadowColor = '#ffa500';
+    sCtx.shadowBlur = 6;
+    sCtx.beginPath();
+    sCtx.moveTo(lampX + lampW, opticalAxisY);
+    sCtx.lineTo(glassRefX, opticalAxisY);
+    sCtx.stroke();
+
+    // Reflected Downward Ray (Drops down onto the stationary lens)
+    sCtx.beginPath();
+    sCtx.moveTo(glassRefX, opticalAxisY);
+    sCtx.lineTo(glassRefX, bedTopY - 22);
+    sCtx.stroke();
+
+    // Returning Interfering Rays (Upward from lens, through glass splitter into moving microscope)
+    sCtx.strokeStyle = '#ffea00';
+    sCtx.lineWidth = 1.5;
+    sCtx.beginPath();
+    sCtx.moveTo(glassRefX, bedTopY - 22);
+    sCtx.lineTo(glassRefX, opticalAxisY); // Travels straight back up to splitter height
+    sCtx.lineTo(micX, opticalAxisY);      // Diverges horizontally to match active microscope placement position
+    sCtx.lineTo(micX, scopeY + scopeH);   // Shoots directly up inside the eyepiece base
+    sCtx.stroke();
+
+    // Photon Particle Animation Pipeline Update Loops
+    sCtx.fillStyle = '#ffffff';
+    sCtx.shadowBlur = 10;
+    let step = 30;
+    
+    // 1. Horizontal Photons moving towards splitter plate
+    for (let x = lampX + lampW + rayAnimationTicks; x < glassRefX; x += step) {
+        sCtx.beginPath();
+        sCtx.arc(x, opticalAxisY, 2.5, 0, Math.PI * 2);
+        sCtx.fill();
+    }
+    // 2. Downward Photons heading to the air-film interference space
+    let downStart = opticalAxisY + ((rayAnimationTicks) % step);
+    for (let y = downStart; y < bedTopY - 22; y += step) {
+        sCtx.beginPath();
+        sCtx.arc(glassRefX, y, 2.5, 0, Math.PI * 2);
+        sCtx.fill();
+    }
+    // 3. Upward reflected photons tracked directly into moving microscope lens frame
+    let upStart = (bedTopY - 22) - ((rayAnimationTicks) % step);
+    for (let y = upStart; y > scopeY + scopeH; y -= step) {
+        // Quantize ray alignment based on whether photon has entered the eyepiece frame offset boundary
+        let currentX = (y > opticalAxisY) ? glassRefX : micX;
+        sCtx.beginPath();
+        sCtx.arc(currentX, y, 2, 0, Math.PI * 2);
+        sCtx.fill();
+    }
+    sCtx.restore();
+    /* 8. EXECUTE VERNIER MECHANICAL READOUT CANVAS SYNCHRONIZATION */
+    drawMechanicalVernierScale(offset);
 }
+/**
+ * Draws a real high-magnification mechanical dual caliper interface.
+ * Main scale intervals: 0.05 cm. Vernier scale: 50 ticks inside 49 main ticks.
+ * Least Count / Vernier Constant = 0.05 / 50 = 0.001 cm.
+ */
+function drawMechanicalVernierScale(offset) {
+    if (!vCtx || !vernierCanvas) return;
+
+    const W = vernierCanvas.width;
+    const H = vernierCanvas.height;
+
+    vCtx.clearRect(0, 0, W, H);
+
+    // Establish drawing plane splits
+    const mainScaleY = 45;
+    const vernierScaleY = 45;
+
+    // Zero alignment coordinate mapping profile
+    const midX = W / 2; 
+    const pixelsPerCm = 350; // Dynamic zoom constant configuration
+
+    // Physical bounds parameters
+    const absoluteReading = Math.abs(offset);
+
+    /* A. COMPUTE LOGICAL SCALE INTERFACES */
+    // Main Scale Division (MSD) = 0.05 cm. Vernier Scale Division (VSD) = 0.049 cm.
+    const msdValue = 0.05;
+
+    // Compute active operational parameters matching actual physical instruments
+    const msr = Math.floor(absoluteReading / msdValue) * msdValue;
+    const residual = absoluteReading - msr;
+    const vsrTicks = Math.round(residual / 0.001);
+
+    /* B. DRAW STATIC BACKING SLEEVE (MAIN SCALE) */
+    let brassGrad = vCtx.createLinearGradient(0, 0, 0, mainScaleY);
+    brassGrad.addColorStop(0, '#eef1f6');
+    brassGrad.addColorStop(0.7, '#d1d8e0');
+    brassGrad.addColorStop(1, '#a5b1c2');
+    vCtx.fillStyle = brassGrad;
+    vCtx.fillRect(0, 0, W, mainScaleY);
+
+    // Boundary edge separator line
+    vCtx.strokeStyle = '#4b6584';
+    vCtx.lineWidth = 2;
+    vCtx.beginPath();
+    vCtx.moveTo(0, mainScaleY);
+    vCtx.lineTo(W, mainScaleY);
+    vCtx.stroke();
+
+    // Map view limits around active viewport spatial window coordinates
+    const startCm = absoluteReading - (midX / pixelsPerCm);
+    const endCm = absoluteReading + (midX / pixelsPerCm);
+
+    // Render underlying Main ticks every 0.05 cm increment boundary limits
+    vCtx.lineWidth = 1;
+    vCtx.font = 'bold 11px ui-monospace, SFMono-Regular, monospace';
+    vCtx.textAlign = 'center';
+
+    let scanValue = Math.ceil(startCm / msdValue) * msdValue;
+    while (scanValue <= endCm) {
+        // Find screen spatial footprint placement index position
+        const tickX = midX + (scanValue - absoluteReading) * pixelsPerCm;
+
+        // Differentiate major integer units from sub-fraction subdivisions
+        const isInteger = Math.abs(scanValue - Math.round(scanValue)) < 1e-5;
+        const isHalf = Math.abs((scanValue * 10) - Math.round(scanValue * 10)) < 1e-5;
+
+        if (isInteger) {
+            vCtx.strokeStyle = '#000000';
+            vCtx.lineWidth = 2;
+            vCtx.beginPath();
+            vCtx.moveTo(tickX, mainScaleY);
+            vCtx.lineTo(tickX, mainScaleY - 24);
+            vCtx.stroke();
+
+            vCtx.fillStyle = '#1e272e';
+            vCtx.fillText(Math.round(scanValue) + ' cm', tickX, mainScaleY - 28);
+        } else if (isHalf) {
+            vCtx.strokeStyle = '#2f3542';
+            vCtx.lineWidth = 1.2;
+            vCtx.beginPath();
+            vCtx.moveTo(tickX, mainScaleY);
+            vCtx.lineTo(tickX, mainScaleY - 18);
+            vCtx.stroke();
+            
+            // Text annotation identifier flags on half cm intervals
+            vCtx.fillStyle = '#57606f';
+            vCtx.fillText(scanValue.toFixed(1), tickX, mainScaleY - 21);
+        } else {
+            // Standard 0.05 cm metric sub-divisions
+            vCtx.strokeStyle = '#747d8c';
+            vCtx.lineWidth = 1;
+            vCtx.beginPath();
+            vCtx.moveTo(tickX, mainScaleY);
+            vCtx.lineTo(tickX, mainScaleY - 12);
+            vCtx.stroke();
+        }
+
+        scanValue += msdValue;
+    }
+
+    /* C. DRAW MOVING SLIDER ASSEMBLY (VERNIER JAW PLATE) */
+    // Slider plate face frame box
+    let sliderGrad = vCtx.createLinearGradient(0, vernierScaleY, 0, H);
+    sliderGrad.addColorStop(0, '#57606f');
+    sliderGrad.addColorStop(0.1, '#747d8c');
+    sliderGrad.addColorStop(0.5, '#4b5563');
+    sliderGrad.addColorStop(1, '#1e232e');
+    vCtx.fillStyle = sliderGrad;
+    vCtx.fillRect(0, vernierScaleY, W, H - vernierScaleY);
+
+    // Beveled frame separation profiles
+    vCtx.strokeStyle = '#2f3542';
+    vCtx.lineWidth = 1.5;
+    vCtx.beginPath();
+    vCtx.moveTo(0, vernierScaleY);
+    vCtx.lineTo(W, vernierScaleY);
+    vCtx.stroke();
+
+    // Render central reference zero arrow marker (Vernier Index Pointer)
+    vCtx.fillStyle = '#ff4757';
+    vCtx.beginPath();
+    vCtx.moveTo(midX, vernierScaleY);
+    vCtx.lineTo(midX - 6, vernierScaleY + 10);
+    vCtx.lineTo(midX + 6, vernierScaleY + 10);
+    vCtx.fill();
+
+    // Render 50 Vernier scale ticks. 
+    // Mechanical formula requirement: 50 VSD = 49 MSD = 49 * 0.05 cm = 2.45 cm.
+    // Length of 1 Vernier division = 2.45 / 50 = 0.049 cm.
+    const vsdValue = 0.049;
+
+    vCtx.font = '9px monospace';
+    vCtx.textAlign = 'center';
+
+    for (let div = 0; div <= 50; div++) {
+        // Distance offset from the index center pointer line
+        const logicalOffset = div * vsdValue;
+        
+        // Render right-side scale lines
+        const tickRightX = midX + (logicalOffset * pixelsPerCm);
+        if (tickRightX >= 0 && tickRightX <= W) {
+            const isMajor = (div % 10 === 0);
+            const isFive = (div % 5 === 0 && !isMajor);
+
+            vCtx.strokeStyle = isMajor ? '#ffffff' : (isFive ? '#f1f2f6' : '#a4b0be');
+            vCtx.lineWidth = isMajor ? 1.5 : 0.8;
+
+            vCtx.beginPath();
+            vCtx.moveTo(tickRightX, vernierScaleY);
+            vCtx.lineTo(tickRightX, vernierScaleY + (isMajor ? 18 : (isFive ? 13 : 9)));
+            vCtx.stroke();
+
+            if (isMajor) {
+                vCtx.fillStyle = '#00d4ff';
+                vCtx.fillText(String(div), tickRightX, vernierScaleY + 28);
+            }
+        }
+    }
+
+    /* D. GRAPHICAL METROLOGY GLASS LENS EFFECT HUD OVERLAY */
+    let glassHud = vCtx.createLinearGradient(0, 0, W, 0);
+    glassHud.addColorStop(0, 'rgba(30,34,45,0.4)');
+    glassHud.addColorStop(0.15, 'rgba(255,255,255,0.05)');
+    glassHud.addColorStop(0.5, 'rgba(255,255,255,0)');
+    glassHud.addColorStop(0.85, 'rgba(255,255,255,0.05)');
+    glassHud.addColorStop(1, 'rgba(30,34,45,0.4)');
+    vCtx.fillStyle = glassHud;
+    vCtx.fillRect(0, 0, W, H);
+
+    // Center targeting hair lines
+    vCtx.strokeStyle = 'rgba(0, 212, 255, 0.35)';
+    vCtx.lineWidth = 1;
+    vCtx.setLineDash([4, 4]);
+    vCtx.beginPath();
+    vCtx.moveTo(midX, 0);
+    vCtx.lineTo(midX, H);
+    vCtx.stroke();
+    vCtx.setLineDash([]);
+}
+
+/**
+ * Enhanced loop frame updater wrapper intercepting input events safely 
+ * to refresh the structural ray traces alongside normal loops.
+ */
+const baselineUpdateEngine = window.update;
+if (typeof baselineUpdateEngine === 'function') {
+    window.update = function() {
+        // Execute primary core base update actions 
+        baselineUpdateEngine();
+        
+        // Force-refresh our dynamic workbench ray rendering parameters
+        const offset = parseFloat(document.getElementById('micPos').value);
+        drawSetup(offset);
+    };
+}
+
+// Continuous background loop keeping light beams pulsing fluidly in real time
+function animateOpticsPipeline() {
+    const micInElement = document.getElementById('micPos');
+    if (micInElement) {
+        const offset = parseFloat(micInElement.value);
+        drawSetup(offset);
+    }
+    requestAnimationFrame(animateOpticsPipeline);
+}
+
+// Hook core layout triggers safely on runtime loading sequence completion
+document.addEventListener("DOMContentLoaded", () => {
+    // Fire real-time loop updates for the optics components
+    animateOpticsPipeline();
+});
 
 function logData() {
     // Step 1: Current microscope position and side (for small observation table only)
