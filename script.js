@@ -776,10 +776,10 @@
        let cylGrad = vCtx.createLinearGradient(dLeft, 0, dRight, 0);
        cylGrad.addColorStop(0,    '#2a2e38');
        cylGrad.addColorStop(0.08, '#4e5668');
-       cylGrad.addColorStop(0.22, '#c0c8d4');
-       cylGrad.addColorStop(0.40, '#e8ecf2');
-       cylGrad.addColorStop(0.58, '#d4d8e0');
-       cylGrad.addColorStop(0.75, '#a0a8b4');
+       cylGrad.addColorStop(0.22, '#7a828d');
+       cylGrad.addColorStop(0.40, '#9098a3');
+       cylGrad.addColorStop(0.58, '#7f8792');
+       cylGrad.addColorStop(0.75, '#7e8792');
        cylGrad.addColorStop(0.90, '#5a6070');
        cylGrad.addColorStop(1,    '#1e2028');
        vCtx.fillStyle = cylGrad;
@@ -817,10 +817,10 @@
        vCtx.rect(dLeft, dTop, dWidth, dH);
        vCtx.clip();
    
-       // — B3. Draw 100-division tick marks scrolling vertically —
+       // — B3. Draw 50-division tick marks scrolling vertically —
        //     pxPerDiv: pixels per one division on the drum face
        //     The drum circumference maps to dH * multiplier so we see ~25–30 divs.
-       const totalDivs = 100;
+       const totalDivs = 50;
        const pxPerDiv  = dH / 25;   // show ~25 divisions in the visible window
    
        // Which division sits at centre (index line)?  → csrTicks
@@ -871,8 +871,8 @@
                vCtx.save();
                vCtx.shadowColor  = 'rgba(0,0,0,0.9)';
                vCtx.shadowBlur   = 4;
-               vCtx.fillStyle    = '#ffffff';
-               vCtx.font         = 'bold 13px ui-monospace, monospace';
+               vCtx.fillStyle    = '#000000';
+               vCtx.font         = 'bold 20px ui-monospace, monospace';
                vCtx.textAlign    = 'center';
                vCtx.textBaseline = 'middle';
                vCtx.fillText(String(divNum), dLeft + dWidth / 2, ty);
@@ -882,8 +882,8 @@
                vCtx.save();
                vCtx.shadowColor  = 'rgba(0,0,0,0.8)';
                vCtx.shadowBlur   = 3;
-               vCtx.fillStyle    = '#d0dcea';
-               vCtx.font         = 'bold 10px ui-monospace, monospace';
+               vCtx.fillStyle    = '#000000';
+               vCtx.font         = 'bold 15px ui-monospace, monospace';
                vCtx.textAlign    = 'center';
                vCtx.textBaseline = 'middle';
                vCtx.fillText(String(divNum), dLeft + dWidth / 2, ty);
@@ -929,7 +929,7 @@
        vCtx.font         = 'bold 10px ui-monospace, monospace';
        vCtx.textAlign    = 'left';
        vCtx.textBaseline = 'middle';
-       vCtx.fillText('CIRC. SCALE  100 div/rev', drumPanelLeft + 4, 9);
+       vCtx.fillText('CIRC. SCALE  50 div/rev', drumPanelLeft + 4, 9);
    
        vCtx.fillStyle    = 'rgba(10,12,20,0.85)';
        vCtx.fillRect(drumPanelLeft + 1, H - 18, drumPanelW - 1, 18);

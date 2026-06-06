@@ -632,6 +632,40 @@ code {
     color: #777;
 }
 
+/* ===================== SLIDER ARROW ROW ===================== */
+.slider-arrow-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.slider-arrow-row input[type="range"] {
+    flex: 1;
+}
+
+.arrow-btn {
+    background: var(--primary);
+    color: #000;
+    border: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    box-shadow: 0 0 8px rgba(0, 212, 255, 0.3);
+    transition: filter 0.15s;
+}
+
+.arrow-btn:hover {
+    filter: brightness(1.25);
+}
+
 /* ===================== RESPONSIVE ===================== */
 @media (max-width: 900px) {
     .lab-layout {

@@ -199,7 +199,7 @@
                     <canvas id="vernierCanvas" width="700" height="170" style="background: #1e222d; border: 2px solid #3a4154; border-radius: 8px; box-shadow: inset 0 0 15px rgba(0,0,0,0.5);"></canvas>
                     <div style="display: flex; justify-content: space-between; margin-top: 6px; font-family: monospace; font-size: 0.85rem; color: #a4b0be; padding: 0 8px;">
                         <span>[Main Scale: 1 div = 0.05 cm]</span>
-                        <span>[Circular Scale: 100 divisions per revolution]</span>
+                        <span>[Circular Scale: 50 divisions per revolution]</span>
                     </div>
                 </div>
             </div>
@@ -208,7 +208,11 @@
             <div class="control-card">
                 <label>Main Scale Reading (cm)</label>
                 <div class="readout" id="digiPos" data-testid="readout-position">10.000 cm</div>
-                <input type="range" id="micPos" min="-4" max="4" step="0.001" value="0" data-testid="slider-micPos" />
+                <div class="slider-arrow-row">
+                    <button class="arrow-btn" onclick="(function(){var s=document.getElementById('micPos');s.value=Math.max(parseFloat(s.min),parseFloat(s.value)-parseFloat(s.step));s.dispatchEvent(new Event('input'));})()">&#9664;</button>
+                    <input type="range" id="micPos" min="-4" max="4" step="0.01" value="0" data-testid="slider-micPos" />
+                    <button class="arrow-btn" onclick="(function(){var s=document.getElementById('micPos');s.value=Math.min(parseFloat(s.max),parseFloat(s.value)+parseFloat(s.step));s.dispatchEvent(new Event('input'));})()">&#9654;</button>
+                </div>
 
                 <label>Light Wavelength (λ): <span id="wTxt">589 nm</span></label>
                 <input type="range" id="wave" min="450" max="700" value="589" data-testid="slider-wave" />
