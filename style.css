@@ -221,7 +221,7 @@ h1 {
     padding: 20px;
     border-radius: 12px;
     border: 1px solid #333;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
     text-align: center;
 }
 
@@ -571,8 +571,10 @@ label {
     padding: 20px;
     border-radius: 12px;
     border: 1px solid #333;
-    height: 300px;
+    height: 450px;
     overflow-y: auto;
+    margin-top: 30px;
+    padding-top: 5px;
 }
 
 .formula-guide {
