@@ -1,8 +1,167 @@
-:root {
-    --primary: #00d4ff;
-    --bg: #12141d;
-    --panel: #1e212b;
-    --text: #e0e0e0;
+/* ============================================================
+   THEME SYSTEM — CSS CUSTOM PROPERTIES
+   Dark mode is the canonical default; light mode is an override.
+   ============================================================ */
+
+/* ── Dark theme tokens (applied when [data-theme="dark"] OR by default) ── */
+:root,
+[data-theme="dark"] {
+    /* Brand */
+    --primary:           #00d4ff;
+    --primary-glow:      rgba(0, 212, 255, 0.35);
+    --primary-focus:     rgba(0, 212, 255, 0.25);
+
+    /* Surfaces */
+    --bg:                #12141d;
+    --panel:             #1e212b;
+    --panel-alt:         #1b1f2b;        /* theory-card, formula-guide dark bg */
+    --panel-deep:        #151824;        /* lab-table-scroll bg */
+    --panel-deepest:     #0d0f14;        /* lab-input bg */
+    --panel-readonly:    #1a1f2e;        /* lab-input-readonly bg */
+    --panel-head:        #0f121a;        /* sim-lab-table thead */
+    --panel-th:          #12141d;        /* general th */
+    --footer-bg:         #0b0d19;
+
+    /* Borders */
+    --border:            #333;
+    --border-strong:     #444;
+    --border-table:      #3a4154;
+    --border-table-soft: #2f3545;
+
+    /* Typography */
+    --text:              #e0e0e0;
+    --text-muted:        #aaa;
+    --text-dim:          #777;
+    --text-footer:       #a4b0be;
+    --text-footer-note:  #9aa3b8;
+    --text-readonly:     #b8c5d9;
+    --text-copyright:    #64748b;
+    --text-formula-note: #aaa;
+
+    /* Interactives */
+    --tab-hover-bg:      #2a2e3d;
+    --tab-active-color:  #000;
+    --btn-clear-bg:      #ff4757;
+    --btn-clear-text:    #ffffff;
+    --btn-print-bg:      #252a3d;
+
+    /* Readout */
+    --readout-bg:        #000;
+    --readout-text:      #0f0;
+    --readout-border:    #0f0;
+    --readout-glow:      #0f03;
+
+    /* Accent text */
+    --accent-names:      #e2e8f0;
+    --footer-heading:    #00e5ff;
+
+    /* Theme toggle */
+    --toggle-bg:         #2a2e3d;
+    --toggle-border:     #444;
+    --toggle-icon:       #00d4ff;
+}
+
+/* ── Light theme token overrides ── */
+[data-theme="light"] {
+    /* Brand — same primary hue but slightly deeper for contrast on white */
+    --primary:           #0099bb;
+    --primary-glow:      rgba(0, 153, 187, 0.25);
+    --primary-focus:     rgba(0, 153, 187, 0.20);
+
+    /* Surfaces */
+    --bg:                #f0f2f7;
+    --panel:             #ffffff;
+    --panel-alt:         #f7f9fc;
+    --panel-deep:        #eef1f6;
+    --panel-deepest:     #ffffff;
+    --panel-readonly:    #f0f4f8;
+    --panel-head:        #e4e8f0;
+    --panel-th:          #e4e8f0;
+    --footer-bg:         #e8ecf5;;   /* keep footer dark in light mode — intentional brand anchor */
+
+    /* Borders */
+    --border:            #d0d5e0;
+    --border-strong:     #b8bfcc;
+    --border-table:      #c8cfe0;
+    --border-table-soft: #d8dde8;
+
+    /* Typography */
+    --text:              #1a1e2e;
+    --text-muted:        #556070;
+    --text-dim:          #8090a8;
+    --text-footer:       #3a4560;
+    --text-footer-note:  #556070;
+    --text-readonly:     #3a4560;
+    --text-copyright:    #6a7a92;
+    --text-formula-note: #556070;
+
+    /* Interactives */
+    --tab-hover-bg:      #e8edf5;
+    --tab-active-color:  #ffffff;
+    --btn-clear-bg:      #e53e4e;
+    --btn-clear-text:    #ffffff;
+    --btn-print-bg:      #e4eaf4;
+
+    /* Readout (keep green LCD feel — familiar) */
+    --readout-bg:        #0a1208;
+    --readout-text:      #00dd00;
+    --readout-border:    #00aa00;
+    --readout-glow:      rgba(0, 200, 0, 0.12);
+
+    /* Accent text */
+    --accent-names:      #1a1e2e;
+    --footer-heading:    #0077aa;
+
+    /* Theme toggle */
+    --toggle-bg:         #e0e5ef;
+    --toggle-border:     #b0baca;
+    --toggle-icon:       #0099bb;
+}
+
+/* ── Smooth transitions on every themeable property ── */
+body,
+body *:not(canvas):not(#ringCanvas):not(#setupCanvas):not(#vernierCanvas) {
+    transition:
+        background-color 0.3s ease,
+        color            0.3s ease,
+        border-color     0.3s ease,
+        box-shadow       0.25s ease;
+}
+
+/* ── Theme toggle button ── */
+.theme-toggle {
+    position: fixed;
+    top: 14px;
+    right: 18px;
+    z-index: 9999;
+    background: var(--toggle-bg);
+    border: 1.5px solid var(--toggle-border);
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--toggle-icon);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transition:
+        background 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.15s ease;
+    padding: 0;
+    flex-shrink: 0;
+}
+.theme-toggle:hover {
+    filter: none;
+    transform: scale(1.1);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.28);
+}
+.theme-toggle:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 3px;
 }
 
 body {
@@ -31,7 +190,7 @@ h1 {
     background: var(--panel);
     padding: 8px;
     border-radius: 12px;
-    border: 1px solid #333;
+    border: 1px solid var(--border);
     max-width: 1100px;
     width: 100%;
     box-sizing: border-box;
@@ -59,15 +218,15 @@ h1 {
 }
 
 .tab-btn:hover {
-    background: #2a2e3d;
+    background: var(--tab-hover-bg);
     color: var(--primary);
 }
 
 .tab-btn.active {
     background: var(--primary);
-    color: #000;
+    color: var(--tab-active-color);
     border-color: var(--primary);
-    box-shadow: 0 0 15px rgba(0, 212, 255, 0.35);
+    box-shadow: 0 0 15px var(--primary-glow);
 }
 
 /* ===================== TAB PANELS ===================== */
@@ -92,19 +251,19 @@ h1 {
     background: var(--panel);
     padding: 30px;
     border-radius: 12px;
-    border: 1px solid #333;
+    border: 1px solid var(--border);
     min-height: 400px;
 }
 
 .content-card h2 {
     color: var(--primary);
     margin-top: 0;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--border);
     padding-bottom: 12px;
 }
 
 .placeholder-note {
-    color: #777;
+    color: var(--text-dim);
     font-style: italic;
     font-size: 0.9rem;
 }
@@ -145,7 +304,7 @@ h1 {
 .theory-image-grid img {
     width: 100%;
     border-radius: 10px;
-    border: 1px solid #444;
+    border: 1px solid var(--border-strong);
     background: white;
 }
 
@@ -165,8 +324,8 @@ h1 {
 }
 
 .theory-card {
-    background: #1b1f2b;
-    border: 1px solid #333;
+    background: var(--panel-alt);
+    border: 1px solid var(--border);
     border-radius: 14px;
     padding: 22px;
     text-align: center;
@@ -189,7 +348,7 @@ h1 {
     margin: 0 auto;
     background: #fff;
     border-radius: 10px;
-    border: 1px solid #555;
+    border: 1px solid var(--border-strong);
     object-fit: contain;
 }
 
@@ -202,7 +361,7 @@ h1 {
     margin: 0 auto;
     background: #fff;
     border-radius: 10px;
-    border: 1px solid #555;
+    border: 1px solid var(--border-strong);
     object-fit: contain;
     padding: 10px;
     box-sizing: border-box;
@@ -221,7 +380,7 @@ h1 {
     background: var(--panel);
     padding: 20px;
     border-radius: 12px;
-    border: 1px solid #333;
+    border: 1px solid var(--border);
     /* margin-bottom: 20px; */
     text-align: center;
 }
@@ -233,14 +392,14 @@ canvas {
 
 #ringCanvas {
     background: #000;
-    border: 6px solid #444;
+    border: 6px solid var(--border-strong);
     border-radius: 50%;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
 }
 
 #setupCanvas {
     background: #222;
-    border: 1px solid #444;
+    border: 1px solid var(--border-strong);
     margin-top: 15px;
     height: 160px;
     width: 100%;
@@ -251,22 +410,22 @@ canvas {
     background: var(--panel);
     padding: 20px;
     border-radius: 12px;
-    border: 1px solid #333;
+    border: 1px solid var(--border);
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
 .readout {
-    background: #000;
-    color: #0f0;
+    background: var(--readout-bg);
+    color: var(--readout-text);
     font-family: monospace;
     padding: 15px;
     border-radius: 8px;
     text-align: center;
     font-size: 1.8rem;
-    border: 1px solid #0f0;
-    box-shadow: inset 0 0 10px #0f03;
+    border: 1px solid var(--readout-border);
+    box-shadow: inset 0 0 10px var(--readout-glow);
 }
 
 input[type="range"] {
@@ -276,7 +435,7 @@ input[type="range"] {
 
 label {
     font-size: 0.8rem;
-    color: #aaa;
+    color: var(--text-muted);
     text-transform: uppercase;
     font-weight: bold;
     display: flex;
@@ -310,9 +469,9 @@ label {
 }
 
 .btn-print-lab {
-    background: #252a3d;
+    background: var(--btn-print-bg);
     color: var(--primary);
-    border: 1px solid #444;
+    border: 1px solid var(--border-strong);
     padding: 10px 18px;
     border-radius: 8px;
     font-weight: bold;
@@ -328,7 +487,7 @@ label {
 
 .lab-record-card {
     background: var(--panel);
-    border: 1px solid #333;
+    border: 1px solid var(--border);
     border-radius: 12px;
     padding: 22px 22px 18px;
     box-sizing: border-box;
@@ -336,7 +495,7 @@ label {
 
 .lab-record-card-header {
     margin-bottom: 16px;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--border);
     padding-bottom: 14px;
 }
 
@@ -359,7 +518,7 @@ label {
 .lab-record-note {
     margin: 10px 0 0;
     font-size: 0.88rem;
-    color: #9aa3b8;
+    color: var(--text-footer-note);
     font-style: italic;
 }
 
@@ -373,8 +532,8 @@ label {
     overflow-y: visible;
     -webkit-overflow-scrolling: touch;
     border-radius: 8px;
-    border: 1px solid #2f3545;
-    background: #151824;
+    border: 1px solid var(--border-table-soft);
+    background: var(--panel-deep);
 }
 
 .sim-lab-table {
@@ -389,22 +548,22 @@ label {
 
 .sim-lab-table th,
 .sim-lab-table td {
-    border: 1px solid #3a4154;
+    border: 1px solid var(--border-table);
     padding: 6px 8px;
     text-align: center;
     vertical-align: middle;
-    background: #151824;
+    background: var(--panel-deep);
 }
 
 .sim-lab-table thead th {
     position: sticky;
     top: 0;
     z-index: 2;
-    background: #0f121a;
+    background: var(--panel-head);
     color: var(--primary);
     font-weight: 600;
     letter-spacing: 0.02em;
-    box-shadow: 0 1px 0 #2a3144;
+    box-shadow: 0 1px 0 var(--border-table);
     font-size: 0.78rem;
     line-height: 1.35;
     padding: 8px 6px;
@@ -439,8 +598,8 @@ label {
     box-sizing: border-box;
     padding: 6px 8px;
     border-radius: 4px;
-    border: 1px solid #4a5568;
-    background: #0d0f14;
+    border: 1px solid var(--border-table);
+    background: var(--panel-deepest);
     color: var(--text);
     font-size: 0.85rem;
     font-family: ui-monospace, "Cascadia Code", "Segoe UI", sans-serif;
@@ -450,7 +609,7 @@ label {
 .lab-input:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 1px rgba(0, 212, 255, 0.25);
+    box-shadow: 0 0 0 1px var(--primary-focus);
 }
 
 .lab-input-ring {
@@ -458,8 +617,8 @@ label {
 }
 
 .lab-input-readonly {
-    background: #1a1f2e;
-    color: #b8c5d9;
+    background: var(--panel-readonly);
+    color: var(--text-readonly);
     cursor: default;
 }
 
@@ -470,7 +629,7 @@ label {
 .lab-result-footer {
     margin-top: 18px;
     padding-top: 14px;
-    border-top: 1px dashed #3a4154;
+    border-top: 1px dashed var(--border-table);
 }
 
 .lab-result-line {
@@ -571,7 +730,7 @@ label {
     background: var(--panel);
     padding: 20px;
     border-radius: 12px;
-    border: 1px solid #333;
+    border: 1px solid var(--border);
     height: 450px;
     overflow-y: auto;
     margin-top: 30px;
@@ -579,7 +738,7 @@ label {
 }
 
 .formula-guide {
-    background: #252a3d;
+    background: var(--panel-alt);
     padding: 20px;
     border-radius: 12px;
     border-left: 5px solid var(--primary);
@@ -593,20 +752,20 @@ table {
 
 th,
 td {
-    border: 1px solid #444;
+    border: 1px solid var(--border-strong);
     padding: 8px;
     text-align: center;
     font-size: 0.9rem;
 }
 
 th {
-    background: #12141d;
+    background: var(--panel-th);
     color: var(--primary);
 }
 
 button {
     background: var(--primary);
-    color: #000;
+    color: var(--tab-active-color);
     border: none;
     padding: 12px;
     border-radius: 6px;
@@ -619,8 +778,8 @@ button:hover {
 }
 
 .clear-btn {
-    background: #ff4757;
-    color: white;
+    background: var(--btn-clear-bg);
+    color: var(--btn-clear-text);
     margin-top: 10px;
     width: 100%;
 }
@@ -632,7 +791,7 @@ code {
 
 .hint-text {
     font-size: 0.8rem;
-    color: #777;
+    color: var(--text-dim);
 }
 
 /* ===================== SLIDER ARROW ROW ===================== */
@@ -649,7 +808,7 @@ code {
 
 .arrow-btn {
     background: var(--primary);
-    color: #000;
+    color: var(--tab-active-color);
     border: none;
     width: 38px;
     height: 38px;
@@ -661,7 +820,7 @@ code {
     align-items: center;
     justify-content: center;
     padding: 0;
-    box-shadow: 0 0 8px rgba(0, 212, 255, 0.3);
+    box-shadow: 0 0 8px var(--primary-glow);
     transition: filter 0.15s;
 }
 
@@ -714,6 +873,10 @@ code {
     display: block;
     margin: 0 auto;
     max-width: 100%;
+    background: #1e222d;
+    border: 2px solid #3a4154;
+    border-radius: 8px;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
 }
 
 /* Subtle glowing accent overlay for active light ray emissions */
@@ -727,19 +890,19 @@ code {
    HIGH-FIDELITY LABORATORY VIRTUAL APP FOOTER
    ============================================================ */
 .vlab-footer {
-    background-color: #0b0d19; 
-    color: #a4b0be;            
+    background-color: var(--footer-bg);
+    color: var(--text-footer);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     padding: 40px 24px 20px 24px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     
-    margin-top: auto;          /* Key Fix: Automatically expands to push the footer down if content is short! */
-    margin-left: -20px;        /* Cancels out body padding on the left */
-    margin-right: -20px;       /* Cancels out body padding on the right */
+    margin-top: 50px;
+    margin-left: -20px;
+    margin-right: -20px;
     
-    width: calc(100% + 40px);  /* Forces footer to span edge-to-edge flush with the browser screen borders */
+    width: calc(100% + 40px);
     box-sizing: border-box;
-    flex-shrink: 0;            /* Prevents the footer from compressing vertically on cramped display panels */
+    flex-shrink: 0;
 }
 
 /* Flexbox Layout Structure */
@@ -769,7 +932,7 @@ code {
 
 /* Heading Typography */
 .vlab-footer h3 {
-    color: #00e5ff; /* Vibrant neon cyan accents */
+    color: var(--footer-heading);
     font-size: 1.15rem;
     font-weight: 600;
     margin: 0 0 16px 0;
@@ -785,7 +948,7 @@ code {
 
 /* Highlight variations for names and team members */
 .team-member, .mentor-name {
-    color: #e2e8f0; /* Crisp contrasting white-gray text */
+    color: var(--accent-names);
     font-weight: 500;
 }
 
@@ -800,7 +963,7 @@ code {
 
 .footer-bottom p {
     font-size: 0.85rem;
-    color: #64748b; /* Muted contrast copyright text */
+    color: var(--text-copyright);
     margin: 0;
 }
 

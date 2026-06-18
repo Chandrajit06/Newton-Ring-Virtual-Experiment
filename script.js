@@ -1,3 +1,75 @@
+/* ============================================================
+   THEME SYSTEM
+   Priority: localStorage saved pref → OS prefers-color-scheme → dark (default)
+   ============================================================ */
+(function () {
+    const STORAGE_KEY = 'newton-rings-theme';
+    const html = document.documentElement;
+    const DARK = 'dark';
+    const LIGHT = 'light';
+
+    /** Return 'light' | 'dark' from OS media query */
+    function getSystemTheme() {
+        return window.matchMedia('(prefers-color-scheme: light)').matches ? LIGHT : DARK;
+    }
+
+    /** Load saved preference, or fall back to system default */
+    function getInitialTheme() {
+        try {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved === LIGHT || saved === DARK) return saved;
+        } catch (_) { /* private browsing may deny storage access */ }
+        return getSystemTheme();
+    }
+
+    /** Apply theme and update toggle button state */
+    function applyTheme(theme) {
+        html.setAttribute('data-theme', theme);
+        const btn = document.getElementById('themeToggleBtn');
+        if (!btn) return;
+        const isDark = theme === DARK;
+        btn.textContent       = isDark ? '☀️' : '🌙';
+        btn.setAttribute('aria-label',   isDark ? 'Switch to light mode' : 'Switch to dark mode');
+        btn.setAttribute('aria-pressed', isDark ? 'false' : 'true');
+    }
+
+    /** Persist preference and apply */
+    function setTheme(theme) {
+        try { localStorage.setItem(STORAGE_KEY, theme); } catch (_) {}
+        applyTheme(theme);
+    }
+
+    /** Toggle between dark and light */
+    function toggleTheme() {
+        const current = html.getAttribute('data-theme') === LIGHT ? LIGHT : DARK;
+        setTheme(current === DARK ? LIGHT : DARK);
+    }
+
+    // ── Bootstrap on DOMContentLoaded so the button element exists ──
+    document.addEventListener('DOMContentLoaded', function () {
+        // Apply saved/system theme
+        applyTheme(getInitialTheme());
+
+        // Wire toggle button
+        const btn = document.getElementById('themeToggleBtn');
+        if (btn) {
+            btn.addEventListener('click', toggleTheme);
+        }
+
+        // React to OS-level preference changes (user toggles OS dark mode)
+        window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function (e) {
+            // Only follow OS change if user hasn't manually set a preference
+            try {
+                if (!localStorage.getItem('newton-rings-theme')) {
+                    applyTheme(e.matches ? LIGHT : DARK);
+                }
+            } catch (_) {
+                applyTheme(e.matches ? LIGHT : DARK);
+            }
+        });
+    });
+})();
+
 /*TAB NAVIGATION
    ============================================================ */
    const tabButtons = document.querySelectorAll('.tab-btn');
