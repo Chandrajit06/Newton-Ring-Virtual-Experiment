@@ -896,7 +896,7 @@ code {
     padding: 40px 24px 20px 24px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     
-    margin-top: 50px;
+    margin-top: auto;
     margin-left: -20px;
     margin-right: -20px;
     
