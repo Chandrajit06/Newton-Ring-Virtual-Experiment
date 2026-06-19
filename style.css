@@ -977,3 +977,12 @@ code {
         flex: 1 1 100% !important;
     }
 }
+.theme-toggle .icon {
+    width: 20px;
+    height: 20px;
+    display: none;
+}
+
+/* dark mode active -> show sun (click to go light) */
+[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+[data-theme="light"] .theme-toggle .icon-moon { display: block; }

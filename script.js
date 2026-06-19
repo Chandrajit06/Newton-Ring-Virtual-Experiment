@@ -10,7 +10,7 @@
 
     /** Return 'light' | 'dark' from OS media query */
     function getSystemTheme() {
-        return window.matchMedia('(prefers-color-scheme: light)').matches ? LIGHT : DARK;
+        return LIGHT;
     }
 
     /** Load saved preference, or fall back to system default */
@@ -28,7 +28,6 @@
         const btn = document.getElementById('themeToggleBtn');
         if (!btn) return;
         const isDark = theme === DARK;
-        btn.textContent       = isDark ? '☀️' : '🌙';
         btn.setAttribute('aria-label',   isDark ? 'Switch to light mode' : 'Switch to dark mode');
         btn.setAttribute('aria-pressed', isDark ? 'false' : 'true');
     }
